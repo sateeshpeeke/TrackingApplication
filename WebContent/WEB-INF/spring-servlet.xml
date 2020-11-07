@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:mvc="http://www.springframework.org/schema/mvc"  
+    xsi:schemaLocation="  
+        http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/context  
+        http://www.springframework.org/schema/context/spring-context.xsd  
+        http://www.springframework.org/schema/mvc  
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">  
+  
+    <!-- Provide support for component scanning -->  
+    <context:component-scan base-package="com.pep.controller" />  
+  
+    <!--Provide support for conversion, formatting and validation -->  
+    <mvc:annotation-driven/> 
+     
+    <bean name="userDao" class="com.pep.daoImpl.UserDaoImpl"/>
+    <bean name="leavesDao" class="com.pep.daoImpl.LeavesDaoImpl"/>
+     <bean name="addhocDao" class="com.pep.daoImpl.AdhocDaoImpl"/>
+      <bean name="taskDao" class="com.pep.daoImpl.TaskDaoImpl"/>
+    
+    
+     <bean class="org.springframework.web.servlet.view.XmlViewResolver">
+	   <property name="location">
+	       <value>/WEB-INF/spring-excel-views.xml</value>
+	   </property>
+	   <property name="order" value="0" />
+	</bean>
+    
+<!-- Define Spring MVC view resolver -->  
+<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="prefix" value="/WEB-INF/jsp/"></property>  
+        <property name="suffix" value=".jsp"></property> 
+         <property name="order" value="1" />
+     </bean> 
+     
+     
+     
+      <!-- Initialization for data source -->
+     <bean id="dataSource" 
+      class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+      <property name = "driverClassName" value = "com.mysql.jdbc.Driver"/>
+      <property name = "url" value = "jdbc:mysql://localhost:3306/tracker"/>
+      <property name = "username" value = "root"/>
+      <property name = "password" value = "Impo1988"/>
+   </bean>
+   
+    <!-- Definition for userDaoJDBCTemplate bean -->
+   <bean id = "jt" 
+   class = "org.springframework.jdbc.core.JdbcTemplate">
+      <property name = "dataSource" ref = "dataSource" />    
+   </bean>
+   
+      <bean name = "udao" 
+      class = "com.pep.daoImpl.UserDaoImpl">
+      <property name = "userDaoJDBCTemplate" ref = "jt" />    
+   </bean>
+   
+    <bean name = "ldao" 
+      class = "com.pep.daoImpl.LeavesDaoImpl">
+      <property name = "userDaoJDBCTemplate" ref = "jt" />    
+   </bean>
+    <bean name = "adao" 
+      class = "com.pep.daoImpl.AdhocDaoImpl">
+      <property name = "userDaoJDBCTemplate" ref = "jt" />    
+   </bean>
+   
+   <bean name = "tdao" 
+      class = "com.pep.daoImpl.TaskDaoImpl">
+      <property name = "userDaoJDBCTemplate" ref = "jt" />    
+   </bean>
+   
+</beans>
