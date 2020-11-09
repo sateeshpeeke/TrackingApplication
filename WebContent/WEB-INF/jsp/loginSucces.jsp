@@ -122,7 +122,7 @@ input[type=submit] {
 		}
 	}
 	
-	function empIdsEmptyCheck() {
+	function empIdsEmptyCheckView() {
 		var eid = document.getElementById("employeeId3").value;
 		if (!eid || 0 === eid.length) {
 			alert("please enter employee Id. ");
@@ -494,7 +494,7 @@ input[type=submit] {
 				<div class="tab-pane" id="viewTask">
 
 					<form action="/TrackingApp/viewTask.do" method="POST"
-						onsubmit="return(empIdsEmptyCheck())">
+						onsubmit="return(empIdsEmptyCheckView())">
 						<table id="center">
 							<tr>
 								<td>TcsEmpId<font color="red">*</font></td>
